@@ -8,6 +8,9 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import { logout } from "./redux/authSlice";
+import Login from "./components/Login/Login";
+
+import "./App.css";
 
 function App() {
   const { token } = useSelector((state) => state.auth);
@@ -22,34 +25,13 @@ function App() {
       <div>
         {token && <button onClick={handleLogout}>Logout</button>}
         <Routes>
-          {/* Вместо /login */}
-          <Route
-            path="/login"
-            element={
-              <div>
-                <h2>Login Page</h2>
-                {/* Здесь будет компонент Login */}
-              </div>
-            }
-          />
-          {/* Вместо /products */}
-          <Route
-            path="/products"
-            element={
-              token ? (
-                <div>
-                  <h2>Products List</h2>
-                  {/* Здесь будет компонент ProductsList */}
-                </div>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
+          {/* Маршрут для /login */}
+          <Route path="/login" element={<Login />} />
+
           {/* Перенаправляем по умолчанию*/}
           <Route
             path="*"
-            element={<Navigate to={token ? "/products" : "/login"} />}
+            element={<Navigate to={token ? "/login" : "/login"} />}
           />
         </Routes>
       </div>
