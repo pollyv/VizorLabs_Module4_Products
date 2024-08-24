@@ -19,6 +19,7 @@ h6 {
 input,
 button {
   font-family: inherit;
+  border: none;
 }
 
 a {

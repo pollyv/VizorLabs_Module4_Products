@@ -5,7 +5,7 @@ This project is a simple React application that provides user authentication and
 ## Features
 
 - User authentication (login).
-- Viewing a list of products with pagination or infinite scrolling.
+- Viewing a list of products with pagination.
 - Adding, editing, and deleting products.
 - Modal dialogs for creating and editing products, implemented using React Portals.
 - State management using Redux.
@@ -42,6 +42,15 @@ npm start
 ```
 
 This will run the app in development mode. Open http://localhost:3000 to view it in your browser. The page will reload if you make edits. You may also see any lint errors in the console.
+
+### 4. Authentication and access to the product list
+
+There is no provision for creating users in this API, so you can use this username and password to log in and access the list of products.
+
+```bash
+login: emilys
+password: emilyspass
+```
 
 ---
 
