@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 import { login } from "../../api/authApi";
 import { loginSuccess, loginFailure } from "../../redux/authSlice";
+import Input from "../Input/Input";
+import Button from "../Button/Button";
+import { validationMessages } from "../../utils/utils";
 
 import "./Login.css";
 
@@ -27,6 +30,7 @@ const Login = () => {
 
       const result = await login(credentials);
       localStorage.setItem("token", result.token);
+      localStorage.setItem("refresh_token", result.refresh_token);
       dispatch(loginSuccess(result));
       navigate("/products");
     } catch (error) {
@@ -36,28 +40,33 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Login</h2>
-        <input
-          type="text"
-          placeholder="Username"
-          {...register("username", { required: true })}
-        />
-        {errors.username && <span>This field is required</span>}
+      <div className="login-container">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h2>Login</h2>
 
-        <input
-          type="password"
-          placeholder="Password"
-          {...register("password", { required: true })}
-        />
-        {errors.password && <span>This field is required</span>}
+          <Input
+              type="text"
+              placeholder="Username"
+              {...register("username", {
+                required: validationMessages.required,
+              })}
+              error={errors.username?.message}
+          />
 
-        {error && <p className="error">{error}</p>}
+          <Input
+              type="password"
+              placeholder="Password"
+              {...register("password", {
+                required: validationMessages.required,
+              })}
+              error={errors.password?.message}
+          />
 
-        <button type="submit">Login</button>
-      </form>
-    </div>
+          {error && <p className="error">{error}</p>}
+
+          <Button type="submit">Login</Button>
+        </form>
+      </div>
   );
 };
 

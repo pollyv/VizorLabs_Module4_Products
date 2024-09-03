@@ -6,14 +6,26 @@
   padding: 0;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
   margin: 0;
   padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 input,
@@ -25,4 +37,8 @@ button {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
 }
