@@ -1,4 +1,4 @@
 export const validationMessages = {
-    required: "This field is required",
-    // потом можно будет добавить другие сообщения валидации
+  required: "This field is required",
+  invalidLogOrPass: "Invalid login or password",
 };
