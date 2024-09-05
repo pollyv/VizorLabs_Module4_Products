@@ -1,0 +1,15 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: #ffffff;
+}
+
+.logout-button-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
