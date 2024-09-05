@@ -1,46 +1,146 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import ProductCard from "../ProductCard/ProductCard";
+import Button from "../Button/Button";
+import Input from "../Input/Input";
+import Modal from "../Modal/Modal";
+import Loader from "../Loader/Loader";
+import useProducts from "../../hooks/useProducts";
+import { validationMessages } from "../../utils/utils";
 
 import "./ProductsList.css";
 
 const ProductsList = () => {
-    const [products, setProducts] = useState([]);
+  const {
+    isModalOpen,
+    setIsModalOpen,
+    currentEditProduct,
+    newProduct,
+    products,
+    error,
+    loading,
+    hasMoreProducts,
+    handleEdit,
+    handleDelete,
+    handleSaveProduct,
+    handleChange,
+    loadMoreProducts,
+    saveAttempted,
+  } = useProducts();
 
-    useEffect(() => {
-        {/* Сюда добавлю реальные карточки во второй части*/}
-        const sampleProducts = [
-            { title: "Product 1", description: "Description 1", price: 100, amount: 10 },
-            { title: "Product 2", description: "Description 2", price: 200, amount: 5 },
-            { title: "Product 3", description: "Description 3", price: 300, amount: 8 },
-            { title: "Product 4", description: "Description 4", price: 400, amount: 12 },
-            { title: "Product 5", description: "Description 5", price: 500, amount: 15 },
-            { title: "Product 6", description: "Description 6", price: 600, amount: 7 },
-            { title: "Product 7", description: "Description 7", price: 700, amount: 20 },
-            { title: "Product 8", description: "Description 8", price: 800, amount: 10 },
-            { title: "Product 9", description: "Description 9", price: 900, amount: 6 },
-            { title: "Product 10", description: "Description 10", price: 1000, amount: 14 },
-        ];
-
-        setProducts(sampleProducts);
-    }, []);
-
-    return (
-        <div className="products-list-container">
-            <h2>Products</h2>
-            <div className="products-grid">
-                {products.map((product, index) => (
-                    <ProductCard
-                        key={index}
-                        title={product.title}
-                        description={product.description}
-                        price={product.price}
-                        amount={product.amount}
-                    />
-                ))}
+  return (
+    <div className="products-list-container">
+      <h2>Products</h2>
+      {error && <p className="error">{error}</p>}
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="button-container">
+            <Button
+              variant="primary"
+              size="medium"
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
+              Create New Product
+            </Button>
+          </div>
+          <div className="products-grid">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                title={product.title}
+                description={product.description}
+                price={product.price}
+                stock={product.stock}
+                onEdit={() => handleEdit(product)}
+                onDelete={() => handleDelete(product.id)}
+              />
+            ))}
+          </div>
+          {hasMoreProducts && (
+            <div className="button-container">
+              <Button
+                variant="primary"
+                size="medium"
+                onClick={loadMoreProducts}
+              >
+                Load More
+              </Button>
             </div>
-        </div>
-    );
+          )}
+        </>
+      )}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <h2>{currentEditProduct ? "Edit Product" : "Create New Product"}</h2>
+        <form>
+          <Input
+            type="text"
+            name="title"
+            placeholder="Title"
+            value={
+              currentEditProduct ? currentEditProduct.title : newProduct.title
+            }
+            onChange={handleChange}
+            error={
+              saveAttempted && !newProduct.title
+                ? validationMessages.titleRequired
+                : ""
+            }
+          />
+          <Input
+            type="text"
+            name="description"
+            placeholder="Description"
+            value={
+              currentEditProduct
+                ? currentEditProduct.description
+                : newProduct.description
+            }
+            onChange={handleChange}
+            error={
+              saveAttempted && !newProduct.description
+                ? validationMessages.descriptionRequired
+                : ""
+            }
+          />
+          <Input
+            type="number"
+            name="price"
+            placeholder="Price"
+            value={
+              currentEditProduct ? currentEditProduct.price : newProduct.price
+            }
+            onChange={handleChange}
+            error={
+              saveAttempted && !newProduct.price
+                ? validationMessages.priceRequired
+                : ""
+            }
+          />
+          <Input
+            type="number"
+            name="stock"
+            placeholder="Stock"
+            value={
+              currentEditProduct ? currentEditProduct.stock : newProduct.stock
+            }
+            onChange={handleChange}
+            error={
+              saveAttempted && !newProduct.stock
+                ? validationMessages.stockRequired
+                : ""
+            }
+          />
+          <Button variant="primary" size="medium" onClick={handleSaveProduct}>
+            {currentEditProduct ? "Save" : "Create"}
+          </Button>
+        </form>
+      </Modal>
+    </div>
+  );
 };
 
 export default ProductsList;
